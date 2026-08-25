@@ -6,7 +6,9 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
-      <Text>Edit src/app/index.tsx to edit this screen.</Text>
+      <Text style={styles.hint}>
+        Edit src/app/index.tsx to edit this screen.
+      </Text>
 
       {/* <Link href="/about">About</Link> */}
       <Text onPress={() => router.navigate("/about")}>About</Text>
@@ -14,10 +16,15 @@ export default function Index() {
   );
 }
 
+// It is like css-modules / css-in-js in react-web
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  hint: {
+    fontSize: 16,
+    color: "#888",
   },
 });
