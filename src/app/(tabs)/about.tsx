@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function AboutScreen() {
   return (
     <SafeAreaView>
-      <Text>AboutScreen</Text>
+      <Text className="dark:text-white">AboutScreen</Text>
     </SafeAreaView>
   );
 }

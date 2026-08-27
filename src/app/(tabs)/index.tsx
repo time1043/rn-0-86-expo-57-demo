@@ -12,7 +12,12 @@ export default function Index() {
       </Text>
 
       {/* <Link href="/about">About</Link> */}
-      <Text onPress={() => router.navigate("/about")}>About</Text>
+      <Text
+        className="dark:text-white"
+        onPress={() => router.navigate("/about")}
+      >
+        About
+      </Text>
     </SafeAreaView>
   );
 }
