@@ -1,12 +1,10 @@
 import { getFeeds } from "@/service/apiFeed";
+import { Host, List, ListItem } from "@expo/ui";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "expo-router";
-import { Text } from "react-native";
+import { ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
-  const router = useRouter();
-
   const {
     data: feeds,
     isLoading,
@@ -17,19 +15,24 @@ export default function Index() {
     queryFn: getFeeds,
   });
 
-  return (
-    <SafeAreaView className="flex-1 items-center justify-center">
-      <Text className="text-xl text-gray-400">
-        Edit src/app/index.tsx to edit this screen.
-      </Text>
+  if (isLoading)
+    return (
+      <SafeAreaView className="flex-1 flex justify-center items-center">
+        <ActivityIndicator size="large" />
+      </SafeAreaView>
+    );
 
-      {/* <Link href="/about">About</Link> */}
-      <Text
-        className="dark:text-white"
-        onPress={() => router.navigate("/about")}
-      >
-        About
-      </Text>
-    </SafeAreaView>
+  return (
+    <Host style={{ flex: 1 }}>
+      {isSuccess && (
+        <List>
+          {feeds.map((item) => (
+            <ListItem key={item.id} supportingText={item.description}>
+              {item.title}
+            </ListItem>
+          ))}
+        </List>
+      )}
+    </Host>
   );
 }
