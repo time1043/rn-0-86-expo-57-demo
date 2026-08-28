@@ -1,7 +1,8 @@
+import { EmptyState } from "@/components/empty-state";
+import { FeedCard } from "@/components/feed-card";
 import { getFeeds } from "@/service/apiFeed";
-import { Host, List, ListItem } from "@expo/ui";
 import { useQuery } from "@tanstack/react-query";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, FlatList, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
@@ -22,17 +23,24 @@ export default function Index() {
       </SafeAreaView>
     );
 
+  if (error)
+    return (
+      <SafeAreaView className="flex-1 flex justify-center items-center">
+        <Text>{error.message}</Text>
+      </SafeAreaView>
+    );
+
   return (
-    <Host style={{ flex: 1 }}>
-      {isSuccess && (
-        <List>
-          {feeds.map((item) => (
-            <ListItem key={item.id} supportingText={item.description}>
-              {item.title}
-            </ListItem>
-          ))}
-        </List>
-      )}
-    </Host>
+    // <SafeAreaView edges={["top"]}> // for observing list through liquid glass
+    // <SafeAreaView edges={["bottom"]}> // ios top bar which is so intelligent turns color automatically
+    <SafeAreaView edges={[]} className="android:mt-8">
+      <FlatList
+        data={feeds}
+        renderItem={({ item: feed }) => <FeedCard {...{ feed }} />}
+        keyExtractor={(feed) => feed.id.toString()}
+        ListEmptyComponent={() => <EmptyState />}
+        // showsVerticalScrollIndicator={false}
+      />
+    </SafeAreaView>
   );
 }
