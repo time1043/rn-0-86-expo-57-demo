@@ -1,12 +1,26 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from "expo-router";
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+  usePathname,
+} from "expo-router";
 import { NativeTabs } from "expo-router/unstable-native-tabs";
-import { useColorScheme } from "react-native";
+import { StatusBar, useColorScheme } from "react-native";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
+  const pathname = usePathname();
+
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      {/* showHideTransition is only available on iOS */}
+      <StatusBar
+        hidden={pathname === "/"}
+        animated
+        showHideTransition="slide"
+      />
+
       <NativeTabs>
         <NativeTabs.Trigger name="index">
           {/* <NativeTabs.Trigger.Icon sf="house.fill" md="home" /> */}
