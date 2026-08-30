@@ -5,8 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 import { ActivityIndicator, FlatList, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// StatusBar.setHidden(true, "fade");
-
 export default function Index() {
   const {
     data: feeds,
@@ -33,9 +31,9 @@ export default function Index() {
     );
 
   return (
-    <SafeAreaView edges={[]}>
-      {/* It is a global component and works at final one */}
-      {/* <StatusBar hidden /> */}
+    // <SafeAreaView edges={["top"]}> // for observing list through liquid glass
+    // <SafeAreaView edges={["bottom"]}> // ios top bar which is so intelligent turns color automatically
+    <SafeAreaView edges={[]} className="android:mt-8">
       <FlatList
         data={feeds}
         renderItem={({ item: feed }) => <FeedCard {...{ feed }} />}
