@@ -1,4 +1,5 @@
 nodeLinker: hoisted
+shamefullyHoist: true
 minimumReleaseAgeExclude:
   - "@expo/cli@57.0.18"
   - "@expo/config-plugins@57.0.9"
