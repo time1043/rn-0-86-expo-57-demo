@@ -1,4 +1,4 @@
-import { Host, Icon } from "@expo/ui";
+import { Ionicons } from "@expo/vector-icons";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { cssInterop } from "nativewind";
 import {
@@ -96,16 +96,7 @@ export default function CameraComponent() {
           onPress={handleTakePhoto}
           disabled={isCameraDisabled}
         >
-          <Host matchContents pointerEvents="none">
-            <Icon
-              name={Icon.select({
-                ios: "camera.fill",
-                android: import("@expo/material-symbols/photo_camera.xml"),
-              })}
-              size={32}
-              color="white"
-            />
-          </Host>
+          <Ionicons name="camera" size={32} color="white" />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
