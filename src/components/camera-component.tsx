@@ -1,7 +1,13 @@
 import { Host, Icon } from "@expo/ui";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { cssInterop } from "nativewind";
-import { ComponentProps, ComponentType, RefAttributes, useState } from "react";
+import {
+  ComponentProps,
+  ComponentType,
+  RefAttributes,
+  useRef,
+  useState,
+} from "react";
 import { Button, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -20,6 +26,8 @@ export default function CameraComponent() {
   const [isCameraReady, setIsCameraReady] = useState(false);
   const [isTakingPhoto, setIsTakingPhoto] = useState(false);
   const isCameraDisabled = !isCameraReady || isTakingPhoto;
+
+  const cameraRef = useRef<CameraView>(null);
 
   // Camera permissions are still loading.
   if (!permission) {
@@ -42,7 +50,26 @@ export default function CameraComponent() {
     setFacing((current) => (current === "back" ? "front" : "back"));
   }
 
-  async function handleTakePhoto() {}
+  async function handleTakePhoto() {
+    if (!cameraRef.current || isCameraDisabled) {
+      return;
+    }
+
+    setIsTakingPhoto(true);
+
+    try {
+      const pictureRef = await cameraRef.current?.takePictureAsync({
+        quality: 1,
+      });
+      console.log(pictureRef);
+      // It is a cached file
+      // {"format": ".jpg", "height": 3072, "uri": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fgalex-9ad54196-68c9-4180-bfa3-4541554b4cbb/Camera/e87ea975-8702-4e77-bbd4-8869fbf6860b.jpg", "width": 4096}
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsTakingPhoto(false);
+    }
+  }
 
   return (
     <SafeAreaView className="flex-1 justify-center">
@@ -51,6 +78,7 @@ export default function CameraComponent() {
         className="flex-1"
         facing={facing}
         onCameraReady={() => setIsCameraReady(true)}
+        ref={cameraRef}
       />
 
       {/* Camera switch button */}
