@@ -1,5 +1,7 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CameraCapturedPicture } from "expo-camera";
 import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 export type Photo = CameraCapturedPicture & {
   id: string;
@@ -10,9 +12,17 @@ type PhotoState = {
   photos: Photo[];
 };
 
-export const usePhotoStore = create<PhotoState>(() => ({
-  photos: [],
-}));
+export const usePhotoStore = create<PhotoState>()(
+  persist(
+    (set) => ({
+      photos: [],
+    }),
+    {
+      name: "photo-store",
+      storage: createJSONStorage(() => AsyncStorage),
+    },
+  ),
+);
 
 export const addPhoto = (photo: Photo) =>
   usePhotoStore.setState((state) => ({
