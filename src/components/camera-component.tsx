@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { Button, Text, TouchableOpacity, View } from "react-native";
+import { Button, Pressable, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type StyledCameraViewProps = ComponentProps<typeof CameraView> & {
@@ -91,8 +91,9 @@ export default function CameraComponent() {
 
       {/* Take photo button */}
       <View className="absolute bottom-8 w-full items-center">
-        <TouchableOpacity
-          className="items-center justify-center border-4 border-white bg-black/30 p-1 size-20 rounded-full"
+        <Pressable
+          className={`items-center justify-center border-4 border-white bg-black/30 p-1 size-20 rounded-full ${isCameraDisabled ? "opacity-50" : ""}`}
+          pointerEvents="box-only"
           onPress={handleTakePhoto}
           disabled={isCameraDisabled}
         >
@@ -106,7 +107,7 @@ export default function CameraComponent() {
               color="white"
             />
           </Host>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </SafeAreaView>
   );
