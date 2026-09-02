@@ -1,10 +1,5 @@
-import { Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import PhotoList from "@/components/photo-list";
 
 export default function GalleryScreen() {
-  return (
-    <SafeAreaView>
-      <Text className="dark:text-white">Gallery</Text>
-    </SafeAreaView>
-  );
+  return <PhotoList />;
 }
