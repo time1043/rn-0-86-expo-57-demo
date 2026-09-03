@@ -6,23 +6,22 @@ export type Photo = CameraCapturedPicture & {
   createdAt: number;
 };
 
-type PhotoStore = {
+type PhotoState = {
   photos: Photo[];
-
-  addPhoto: (photo: Photo) => void;
-  removePhoto: (id: string) => void;
 };
 
-export const usePhotoStore = create<PhotoStore>((set) => ({
+export const usePhotoStore = create<PhotoState>(() => ({
   photos: [],
-
-  addPhoto: (photo) =>
-    set((state) => ({
-      photos: [photo, ...state.photos],
-    })),
-
-  removePhoto: (id) =>
-    set((state) => ({
-      photos: state.photos.filter((photo) => photo.id !== id),
-    })),
 }));
+
+export const addPhoto = (photo: Photo) =>
+  usePhotoStore.setState((state) => ({
+    photos: [photo, ...state.photos],
+  }));
+
+export const removePhoto = (id: string) =>
+  usePhotoStore.setState((state) => ({
+    photos: state.photos.filter((photo) => photo.id !== id),
+  }));
+
+export const clearPhotos = () => usePhotoStore.setState({ photos: [] });
