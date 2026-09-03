@@ -1,10 +1,10 @@
 import { photosAtom } from "@/stores/photo-atom";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { FlatList, Image, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function PhotoList() {
-  const [photos] = useAtom(photosAtom);
+  const photos = useAtomValue(photosAtom);
 
   if (photos.length === 0) {
     return (

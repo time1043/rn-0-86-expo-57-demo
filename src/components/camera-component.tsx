@@ -1,4 +1,4 @@
-import { Photo, photosAtom } from "@/stores/photo-atom";
+import { addPhotoAtom } from "@/stores/photo-atom";
 import { Host, Icon } from "@expo/ui";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import * as Crypto from "expo-crypto";
@@ -43,11 +43,7 @@ export default function CameraComponent() {
   const [shouldShowPhotoSavedAlert, setShouldShowPhotoSavedAlert] =
     useState(true);
 
-  // const [_, setPhotos] = useAtom(photosAtom);
-  const setPhotos = useSetAtom(photosAtom);
-  const addPhoto = async (photo: Photo) => {
-    setPhotos((current) => [photo, ...current]);
-  };
+  const addPhoto = useSetAtom(addPhotoAtom);
 
   // Camera permissions are still loading.
   if (!permission) {

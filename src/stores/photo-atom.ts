@@ -7,3 +7,8 @@ export type Photo = CameraCapturedPicture & {
 };
 
 export const photosAtom = atom<Photo[]>([]);
+
+// write-only atom / action atom
+export const addPhotoAtom = atom(null, (_get, set, photo: Photo) => {
+  set(photosAtom, (current) => [photo, ...current]);
+});
