@@ -15,7 +15,14 @@ export const photosAtom = atomWithStorage<Photo[]>(
   photosAtomStorage,
 );
 
-export const shouldShowPhotoSavedAlertAtom = atom<boolean>(true);
+const shouldShowPhotoSavedAlertAtomStorage = createJSONStorage<boolean>(
+  () => AsyncStorage,
+);
+export const shouldShowPhotoSavedAlertAtom = atomWithStorage<boolean>(
+  "shouldShowPhotoSavedAlert",
+  true,
+  shouldShowPhotoSavedAlertAtomStorage,
+);
 
 // write-only atom / action atom
 export const addPhotoAtom = atom(null, async (get, set, photo: Photo) => {
