@@ -1,5 +1,5 @@
-import CameraComponent from "@/components/camera-component";
+import CameraRecord from "@/components/camera-record";
 
 export default function LensScreen() {
-  return <CameraComponent />;
+  return <CameraRecord />;
 }
