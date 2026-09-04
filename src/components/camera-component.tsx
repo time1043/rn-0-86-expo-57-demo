@@ -1,6 +1,9 @@
+import { Photo, photosAtom } from "@/stores/photo-atom";
 import { Host, Icon } from "@expo/ui";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
+import * as Crypto from "expo-crypto";
 import { router } from "expo-router";
+import { useSetAtom } from "jotai";
 import { cssInterop } from "nativewind";
 import {
   ComponentProps,
@@ -40,6 +43,12 @@ export default function CameraComponent() {
   const [shouldShowPhotoSavedAlert, setShouldShowPhotoSavedAlert] =
     useState(true);
 
+  // const [_, setPhotos] = useAtom(photosAtom);
+  const setPhotos = useSetAtom(photosAtom);
+  const addPhoto = async (photo: Photo) => {
+    setPhotos((current) => [photo, ...current]);
+  };
+
   // Camera permissions are still loading.
   if (!permission) {
     return <View />;
@@ -72,9 +81,9 @@ export default function CameraComponent() {
       const pictureRef = await cameraRef.current?.takePictureAsync({
         quality: 1,
       });
-      console.log(pictureRef);
-      // It is a cached file
-      // {"format": ".jpg", "height": 3072, "uri": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fgalex-9ad54196-68c9-4180-bfa3-4541554b4cbb/Camera/e87ea975-8702-4e77-bbd4-8869fbf6860b.jpg", "width": 4096}
+      if (!pictureRef) {
+        return;
+      }
 
       // Alert if user takes a photo and doesn't set it
       if (shouldShowPhotoSavedAlert) {
@@ -93,6 +102,12 @@ export default function CameraComponent() {
           },
         ]);
       }
+
+      addPhoto({
+        id: Crypto.randomUUID(),
+        createdAt: Date.now(),
+        ...pictureRef,
+      });
     } catch (error) {
       console.error(error);
     } finally {

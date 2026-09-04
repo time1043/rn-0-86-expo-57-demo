@@ -1,16 +1,33 @@
-import { Image } from "react-native";
+import { photosAtom } from "@/stores/photo-atom";
+import { useAtom } from "jotai";
+import { FlatList, Image, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function PhotoList() {
-  const uri =
-    "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fgalex-9ad54196-68c9-4180-bfa3-4541554b4cbb/Camera/e87ea975-8702-4e77-bbd4-8869fbf6860b.jpg";
+  const [photos] = useAtom(photosAtom);
+
+  if (photos.length === 0) {
+    return (
+      <SafeAreaView className="flex-1">
+        <View className="flex-1 items-center justify-center">
+          <Text className="dark:text-white">No photos yet</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView className="flex-1">
-      <Image
-        source={{ uri }}
-        className="aspect-square w-full"
-        resizeMode="cover"
+      <FlatList
+        data={photos}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <Image
+            source={{ uri: item.uri }}
+            className="aspect-square w-full"
+            resizeMode="cover"
+          />
+        )}
       />
     </SafeAreaView>
   );
