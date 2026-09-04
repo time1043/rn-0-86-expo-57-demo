@@ -1,9 +1,12 @@
-import { addPhotoAtom } from "@/stores/photo-atom";
+import {
+  addPhotoAtom,
+  shouldShowPhotoSavedAlertAtom,
+} from "@/stores/photo-atom";
 import { Host, Icon } from "@expo/ui";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import * as Crypto from "expo-crypto";
 import { router } from "expo-router";
-import { useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { cssInterop } from "nativewind";
 import {
   ComponentProps,
@@ -40,8 +43,9 @@ export default function CameraComponent() {
 
   const cameraRef = useRef<CameraView>(null);
 
-  const [shouldShowPhotoSavedAlert, setShouldShowPhotoSavedAlert] =
-    useState(true);
+  const [shouldShowPhotoSavedAlert, setShouldShowPhotoSavedAlert] = useAtom(
+    shouldShowPhotoSavedAlertAtom,
+  );
 
   const addPhoto = useSetAtom(addPhotoAtom);
 

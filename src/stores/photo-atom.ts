@@ -8,6 +8,8 @@ export type Photo = CameraCapturedPicture & {
 
 export const photosAtom = atom<Photo[]>([]);
 
+export const shouldShowPhotoSavedAlertAtom = atom<boolean>(true);
+
 // write-only atom / action atom
 export const addPhotoAtom = atom(null, (_get, set, photo: Photo) => {
   set(photosAtom, (current) => [photo, ...current]);
