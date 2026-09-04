@@ -10,12 +10,14 @@ export type Photo = CameraCapturedPicture & {
 
 type PhotoState = {
   photos: Photo[];
+  shouldShowPhotoSavedAlert: boolean;
 };
 
 export const usePhotoStore = create<PhotoState>()(
   persist(
     (set) => ({
       photos: [],
+      shouldShowPhotoSavedAlert: true,
     }),
     {
       name: "photo-store",
@@ -35,3 +37,8 @@ export const removePhoto = (id: string) =>
   }));
 
 export const clearPhotos = () => usePhotoStore.setState({ photos: [] });
+
+export const setShouldShowPhotoSavedAlert = (value: boolean) =>
+  usePhotoStore.setState({
+    shouldShowPhotoSavedAlert: value,
+  });

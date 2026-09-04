@@ -1,4 +1,8 @@
-import { addPhoto } from "@/stores/photo-store";
+import {
+  addPhoto,
+  setShouldShowPhotoSavedAlert,
+  usePhotoStore,
+} from "@/stores/photo-store";
 import { Host, Icon } from "@expo/ui";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import * as Crypto from "expo-crypto";
@@ -39,8 +43,7 @@ export default function CameraComponent() {
 
   const cameraRef = useRef<CameraView>(null);
 
-  const [shouldShowPhotoSavedAlert, setShouldShowPhotoSavedAlert] =
-    useState(true);
+  const { shouldShowPhotoSavedAlert } = usePhotoStore();
 
   // Camera permissions are still loading.
   if (!permission) {
